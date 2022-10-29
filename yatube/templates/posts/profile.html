@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+  Профайл пользователя {{ author.get_username }}
+{% endblock %}
+{% block content %}
+  <h1>Все посты пользователя
+    {% if author.get_full_name %}
+      {{ author.get_full_name }}
+      ({{ author.get_username }})
+    {% else %}
+      {{ author.get_username }}
+    {% endif %}
+  </h1>
+  <h3>Всего постов: {{ author.posts.count }} </h3>
+
+  {% if following %}
+    <a
+      class="btn btn-lg btn-light"
+      href="{% url 'posts:profile_unfollow' author.username %}" role="button"
+    >
+      Отписаться
+    </a>
+  {% else %}
+      <a
+        class="btn btn-lg btn-primary"
+        href="{% url 'posts:profile_follow' author.username %}" role="button"
+      >
+        Подписаться
+      </a>
+   {% endif %}
+
+  {% for post in page_obj %}
+    {% include 'posts/includes/article_block.html' with not_profile_page=False %}
+  {% endfor %}
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}

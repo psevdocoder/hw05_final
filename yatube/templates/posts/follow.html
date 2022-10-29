@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+  Подписки
+{% endblock %}
+{%  block content %}
+  <h1> Подписки </h1>
+  {% load cache %}
+  {% cache 20 follow_page %}
+    {% include 'posts/includes/switcher.html' %}
+    {% for post in page_obj %}
+      {% include 'posts/includes/article_block.html' with not_profile_page=True %}
+    {% endfor %}
+  {% endcache %}
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}
