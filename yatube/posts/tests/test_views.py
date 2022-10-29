@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django import forms
 from django.core.cache import cache
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
@@ -153,16 +152,10 @@ class ViewsTest(TestCase):
             context_is_edit = response.context['is_edit']
             self.assertEqual(context_is_edit, True)
 
-
     def test_photo_in_context(self):
         """Проверка наличия фото в словаре контекста"""
 
         create_post_with_photo(self)
-
-
-
-
-
 
     def test_paginator(self):
         """Тестирование паджинатора на разных страницах"""
@@ -198,8 +191,6 @@ class ViewsTest(TestCase):
                     len(page_2_response.context['page_obj']),
                     self.POSTS_ON_PAGE_2
                 )
-
-
 
     def post_test(self, post):
         """Вспомогательная функция тестирования постов"""
