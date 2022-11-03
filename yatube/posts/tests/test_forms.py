@@ -30,6 +30,9 @@ class FormsTest(TestCase):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
+    def TearDown(self):
+        del self.post
+
     def setUp(self):
         self.auth_user = User.objects.create_user(username='auth_user')
         self.auth_client = Client()

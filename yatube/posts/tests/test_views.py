@@ -174,19 +174,13 @@ class ViewsTest(TestCase):
             reverse('posts:index'),
             reverse('posts:group_list', args=(self.group.slug,)),
             reverse('posts:profile', args=(self.author.username,)),
+            reverse('posts:post_detail', args='2'),
         ]
 
         for page in pages:
             with self.subTest(page=page):
                 response = self.auth_client.get(page)
-                post = response.context['page_obj'][0]
-                self.assertEqual(post.image, 'posts/small.gif')
-
-        response = self.auth_client.get(
-            reverse('posts:post_detail', args='2')
-        )
-        post = response.context['post']
-        self.assertEqual(post.image, 'posts/small.gif')
+                self.assertContains(response, '<img')
 
     def test_paginator(self):
         """Тестирование паджинатора на разных страницах."""
