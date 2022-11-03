@@ -170,6 +170,8 @@ class ViewsTest(TestCase):
 
         create_post_with_photo(self)
 
+        cache.clear()
+
         pages = [
             reverse('posts:index'),
             reverse('posts:group_list', args=(self.group.slug,)),
@@ -180,7 +182,7 @@ class ViewsTest(TestCase):
         for page in pages:
             with self.subTest(page=page):
                 response = self.auth_client.get(page)
-                self.assertContains(response, '<img')
+                self.assertContains(response, '<img class="card-img my-2"')
 
     def test_paginator(self):
         """Тестирование паджинатора на разных страницах."""
