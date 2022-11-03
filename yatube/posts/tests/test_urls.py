@@ -34,7 +34,7 @@ class URLTests(TestCase):
         )
 
     def test_pages_exists_at_desired_location(self):
-        """Страница доступна любому пользователю"""
+        """Страница доступна любому пользователю."""
         pages_url = {
             '/': HTTPStatus.OK,
             f'/group/{self.group.slug}/': HTTPStatus.OK,
@@ -50,8 +50,7 @@ class URLTests(TestCase):
                 self.assertEqual(response.status_code, http_status)
 
     def test_post_edit_url_redirect_anonymous(self):
-        """Страница post_edit/ перенаправляет анонимного
-        пользователя"""
+        """Страница post_edit/ перенаправляет анонимного пользователя."""
         response = Client().post(
             reverse('posts:post_edit', kwargs={'post_id': self.post.id})
         )
@@ -59,8 +58,7 @@ class URLTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_post_create_url_redirect_anonymous(self):
-        """Страница create/ перенаправляет анонимного
-        пользователя"""
+        """Страница create/ перенаправляет анонимного пользователя."""
         response = Client().post(reverse('posts:post_create'))
         self.assertRedirects(response, '/auth/login/?next=/create/')
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -89,14 +87,14 @@ class URLTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_unknown_page_url_unexists_at_desired_location(self):
-        """Страница не существует и используется кастомный шаблон"""
+        """Страница не существует и используется кастомный шаблон."""
         response = Client().get('/none/')
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, 'core/404.html')
 
     def test_no_author_of_post_cant_edit_post(self):
         """Страница posts/<post_id>/edit/ не доступна
-         авторизованному пользователю, но не автору поста"""
+         авторизованному пользователю, но не автору поста."""
         response = self.no_author_client.get(reverse(
             'posts:post_edit', kwargs={'post_id': self.post.id}))
         self.assertRedirects(response, reverse(
@@ -106,7 +104,7 @@ class URLTests(TestCase):
     def test_comments_access_for_not_auth_clients(self):
         """
         Тестирование, что неавторизованный клиент не
-        может оставлять комментарии,
+        может оставлять комментарии.
         """
         response = Client().get(
             reverse('posts:add_comment', args=(self.post.id,))
@@ -116,7 +114,7 @@ class URLTests(TestCase):
 
     def test_comments_access_for_auth_users(self):
         """
-        Тестирование, что авторизованный клиент может оставлять комментарии
+        Тестирование, что авторизованный клиент может оставлять комментарии.
         """
         response = self.no_author_client.get(
             reverse('posts:add_comment', args=(self.post.id,))
@@ -127,7 +125,7 @@ class URLTests(TestCase):
     def test_access_to_follows_for_auth_user(self):
         """
         Тестирование, что авторизованный клиент может подписываться и
-        отписываться на других
+        отписываться на других.
         """
         response_follow = self.no_author_client.get(
             reverse('posts:profile_follow', args=(self.author.username,))

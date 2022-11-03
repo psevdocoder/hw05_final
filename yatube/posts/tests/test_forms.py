@@ -36,7 +36,7 @@ class FormsTest(TestCase):
         self.auth_client.force_login(self.auth_user)
 
     def test_create_post_form(self):
-        """Проверка редиректа и создания новой записи в базе данных"""
+        """Проверка редиректа и создания новой записи в базе данных."""
         posts_count = Post.objects.count()
 
         from .utils import create_post_with_photo
@@ -57,7 +57,7 @@ class FormsTest(TestCase):
         )
 
     def test_edit_post_form(self):
-        """Проверка редиректа и редактирования поста"""
+        """Проверка редиректа и редактирования поста."""
 
         form_data = {
             'text': 'тестовый текст',
@@ -89,7 +89,7 @@ class FormsTest(TestCase):
         )
 
     def test_comment_creation(self):
-        """После успешной отправки комментарий появляется на странице поста"""
+        """После успешной отправки комментарий появляется на странице поста."""
         self.post = Post.objects.create(
             author=self.auth_user,
             group=self.group,

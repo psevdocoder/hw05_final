@@ -104,9 +104,7 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
     post_list = Post.objects.filter(author__following__user=request.user)
-
     context = {
         'page_obj': get_page_context(post_list, request),
     }
@@ -123,10 +121,8 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
-    unfollow_user = get_object_or_404(User, username=username)
-    get_object_or_404(
-        Follow,
-        user=request.user,
-        author=unfollow_user
-    ).delete()
-    return redirect('posts:profile', username=username)
+    author = get_object_or_404(User, username=username)
+    follow = Follow.objects.filter(user=request.user, author=author)
+    if follow.exists():
+        follow.delete()
+    return redirect("posts:profile", username=username)
