@@ -8,7 +8,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from .utils import create_post_with_photo
-from ..models import Group, Post, Follow
+from ..models import Group, Post, Follow, Comment
 
 User = get_user_model()
 
@@ -256,3 +256,16 @@ class ViewsTest(TestCase):
         response = self.not_follower_client.get(reverse('posts:follow_index'))
         post = response.context['page_obj']
         self.assertNotEqual(post, self.post)
+
+    def test_auth_client_can_follow(self):
+        """
+        Тестирование, что авторизованный клиент может подписаться.
+        """
+        follows_count_before = Follow.objects.filter(
+            user_id=self.follower.id).count()
+        self.follower_client.get(reverse(
+            'posts:profile_follow', args=(self.not_follower.username,))
+        )
+        follows_count_after = Follow.objects.filter(
+            user_id=self.follower.id).count()
+        self.assertEqual(follows_count_before + 1, follows_count_after)
