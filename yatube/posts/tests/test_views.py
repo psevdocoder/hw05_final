@@ -8,7 +8,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from .utils import create_post_with_photo
-from ..models import Group, Post, Follow, Comment
+from ..models import Group, Post, Follow
 
 User = get_user_model()
 
@@ -256,9 +256,3 @@ class ViewsTest(TestCase):
         response = self.not_follower_client.get(reverse('posts:follow_index'))
         post = response.context['page_obj']
         self.assertNotEqual(post, self.post)
-
-    # def auth_client_can_comment(self):
-    #     """
-    #     Тестирование, что авторизованный клиент может оставлять комментарий.
-    #     """
-    #     expected_form_fields =
