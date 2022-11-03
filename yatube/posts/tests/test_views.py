@@ -8,7 +8,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from .utils import create_post_with_photo
-from ..models import Group, Post, Follow, Comment
+from ..models import Group, Post, Follow
 
 User = get_user_model()
 
